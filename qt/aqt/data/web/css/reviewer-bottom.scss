@@ -116,6 +116,40 @@ body[data-answer-border-scheme="off"] {
     }
 }
 
+/* Dark mode adjustments for better contrast */
+.nightMode {
+    &[data-answer-border-scheme="normal"] {
+        button[data-ease="1"] {
+            border-color: #ff6b6b; /* Slightly brighter red for dark mode */
+        }
+        button[data-ease="2"],
+        button[data-ease="3"], 
+        button[data-ease="4"] {
+            border-color: #6bcf7f; /* Slightly brighter green for dark mode */
+        }
+    }
+    
+    &[data-answer-border-scheme="colorblind"] {
+        button[data-ease="1"] {
+            border-color: #ffd93d; /* Brighter gold for dark mode */
+        }
+        button[data-ease="2"],
+        button[data-ease="3"],
+        button[data-ease="4"] {
+            border-color: #4dabf7; /* Brighter blue for dark mode */
+        }
+    }
+    
+    &[data-answer-border-scheme="off"] {
+        button[data-ease="1"],
+        button[data-ease="2"],
+        button[data-ease="3"],
+        button[data-ease="4"] {
+            border-color: #aaaaaa; /* Lighter grey for dark mode */
+        }
+    }
+}
+
 .nightMode {
     #outer {
         border-top-color: color(border-subtle);
