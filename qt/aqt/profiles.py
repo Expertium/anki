@@ -559,6 +559,12 @@ create table if not exists profiles
     def set_answer_key(self, ease: int, key: str):
         self.meta.setdefault("answer_keys", self.default_answer_keys)[ease] = key
 
+    def get_answer_button_border_scheme(self) -> str:
+        return self.meta.get("answer_button_border_scheme", "normal")
+
+    def set_answer_button_border_scheme(self, scheme: str) -> None:
+        self.meta["answer_button_border_scheme"] = scheme
+
     def hide_top_bar(self) -> bool:
         return self.meta.get("hide_top_bar", False)
 

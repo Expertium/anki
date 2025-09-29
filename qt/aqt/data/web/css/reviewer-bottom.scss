@@ -84,6 +84,38 @@ button {
     position: relative;
 }
 
+/* Answer button border color schemes */
+body[data-answer-border-scheme="normal"] {
+    button[data-ease="1"] {
+        border-color: #e25252; /* Red for Again */
+    }
+    button[data-ease="2"],
+    button[data-ease="3"], 
+    button[data-ease="4"] {
+        border-color: #5cb85c; /* Green for Hard/Good/Easy */
+    }
+}
+
+body[data-answer-border-scheme="colorblind"] {
+    button[data-ease="1"] {
+        border-color: #f9ba2b; /* Gold for Again */
+    }
+    button[data-ease="2"],
+    button[data-ease="3"],
+    button[data-ease="4"] {
+        border-color: #0e73d0; /* Blue for Hard/Good/Easy */
+    }
+}
+
+body[data-answer-border-scheme="off"] {
+    button[data-ease="1"],
+    button[data-ease="2"],
+    button[data-ease="3"],
+    button[data-ease="4"] {
+        border-color: #808080; /* Neutral grey for all */
+    }
+}
+
 .nightMode {
     #outer {
         border-top-color: color(border-subtle);
