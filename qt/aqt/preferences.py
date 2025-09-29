@@ -61,6 +61,7 @@ class Preferences(QDialog):
         self.setup_profile()
         self.setup_global()
         self.setup_configurable_answer_keys()
+        self.setup_answer_button_border_colors()
         self.show()
 
     def setup_configurable_answer_keys(self):
@@ -85,6 +86,33 @@ class Preferences(QDialog):
                 functools.partial(self.mw.pm.set_answer_key, ease),
             )
             line_edit.setPlaceholderText(tr.preferences_shortcut_placeholder())
+
+    def setup_answer_button_border_colors(self):
+        """
+        Create controls for answer button border color scheme selection.
+        """
+        combo = self.form.answer_border_scheme
+        # Map internal scheme names to display names
+        schemes = [
+            ("normal", "Normal Vision"),
+            ("colorblind", "Colorblind-Friendly"), 
+            ("off", "Off")
+        ]
+        
+        current_scheme = self.mw.pm.get_answer_button_border_scheme()
+        current_index = 0
+        for i, (scheme_key, _) in enumerate(schemes):
+            if scheme_key == current_scheme:
+                current_index = i
+                break
+        
+        combo.setCurrentIndex(current_index)
+        qconnect(combo.currentIndexChanged, self.on_answer_border_scheme_changed)
+
+    def on_answer_border_scheme_changed(self, index: int) -> None:
+        schemes = ["normal", "colorblind", "off"]
+        if 0 <= index < len(schemes):
+            self.mw.pm.set_answer_button_border_scheme(schemes[index])
 
     def accept(self) -> None:
         self.accept_with_callback()

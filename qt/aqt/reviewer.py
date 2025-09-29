@@ -833,6 +833,11 @@ timerStopped = false;
             maxTime = self.card.time_limit() / 1000
         else:
             maxTime = 0
+        
+        # Set the answer button border scheme on the body element
+        scheme = self.mw.pm.get_answer_button_border_scheme()
+        self.bottom.web.eval(f"document.body.setAttribute('data-answer-border-scheme', '{scheme}');")
+        
         self.bottom.web.eval("showQuestion(%s,%d);" % (json.dumps(middle), maxTime))
 
     def _showEaseButtons(self) -> None:
@@ -841,6 +846,11 @@ timerStopped = false;
             return
         middle = self._answerButtons()
         conf = self.mw.col.decks.config_dict_for_deck_id(self.card.current_deck_id())
+        
+        # Set the answer button border scheme on the body element
+        scheme = self.mw.pm.get_answer_button_border_scheme()
+        self.bottom.web.eval(f"document.body.setAttribute('data-answer-border-scheme', '{scheme}');")
+        
         self.bottom.web.eval(
             f"showAnswer({json.dumps(middle)}, {json.dumps(conf['stopTimerOnAnswer'])});"
         )
