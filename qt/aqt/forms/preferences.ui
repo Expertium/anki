@@ -461,6 +461,13 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QGroupBox" name="preferences_answer_button_colors">
+           <property name="title">
+            <string>preferences_answer_button_colors</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>

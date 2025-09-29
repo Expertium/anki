@@ -787,7 +787,17 @@ class Reviewer:
     ##########################################################################
 
     def _bottomHTML(self) -> str:
+        # Get user's answer button color preferences
+        correct_color = self.mw.pm.get_answer_button_color("correct", "#2ec27e")
+        incorrect_color = self.mw.pm.get_answer_button_color("incorrect", "#e01b24")
+        
         return """
+<style>
+:root {
+    --answer-correct-border-color: %(correct_color)s;
+    --answer-incorrect-border-color: %(incorrect_color)s;
+}
+</style>
 <center id=outer>
 <table id=innertable width=100%% cellspacing=0 cellpadding=0>
 <tr>
@@ -809,6 +819,8 @@ time = %(time)d;
 timerStopped = false;
 </script>
 """ % dict(
+            correct_color=correct_color,
+            incorrect_color=incorrect_color,
             edit=tr.studying_edit(),
             editkey=tr.actions_shortcut_key(val="E"),
             more=tr.studying_more(),
@@ -899,6 +911,12 @@ timerStopped = false;
                 extra = """id="defease" """
             else:
                 extra = ""
+            
+            # Add answer feedback classes based on ease level
+            # Ease 1 (Again) is considered "incorrect", others are "correct"
+            answer_class = "answerIncorrect" if i == 1 else "answerCorrect"
+            extra += f'class="{answer_class}" '
+            
             due = self._buttonTime(i, v3_labels=labels)
             key = (
                 tr.actions_shortcut_key(val=aqt.mw.pm.get_answer_key(i))

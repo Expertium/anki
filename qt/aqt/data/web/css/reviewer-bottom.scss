@@ -7,6 +7,8 @@
 
 :root {
     --focus-color: #{palette-of(border-focus)};
+    --answer-correct-border-color: #2ec27e;
+    --answer-incorrect-border-color: #e01b24;
 
     .isMac {
         --focus-color: rgba(0 103 244 / 0.247);
@@ -88,4 +90,12 @@ button {
     #outer {
         border-top-color: color(border-subtle);
     }
+}
+
+.answerCorrect {
+    border-color: var(--answer-correct-border-color) !important;
+}
+
+.answerIncorrect {
+    border-color: var(--answer-incorrect-border-color) !important;
 }

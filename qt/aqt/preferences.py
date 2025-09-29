@@ -61,6 +61,7 @@ class Preferences(QDialog):
         self.setup_profile()
         self.setup_global()
         self.setup_configurable_answer_keys()
+        self.setup_answer_button_colors()
         self.show()
 
     def setup_configurable_answer_keys(self):
@@ -85,6 +86,48 @@ class Preferences(QDialog):
                 functools.partial(self.mw.pm.set_answer_key, ease),
             )
             line_edit.setPlaceholderText(tr.preferences_shortcut_placeholder())
+
+    def setup_answer_button_colors(self):
+        """
+        Create a group box in Preferences with widgets that let the user edit answer button border colors.
+        """
+        group = self.form.preferences_answer_button_colors
+        group.setLayout(layout := QFormLayout())
+        
+        # Correct answer border color
+        correct_color = self.mw.pm.get_answer_button_color("correct", "#2ec27e")
+        correct_button = QPushButton()
+        correct_button.setFixedSize(60, 30)
+        correct_button.setStyleSheet(f"background-color: {correct_color}; border: 1px solid #ccc;")
+        correct_button.clicked.connect(lambda: self._choose_answer_button_color("correct", correct_button))
+        layout.addRow(tr.preferences_answer_correct_border(), correct_button)
+        
+        # Incorrect answer border color  
+        incorrect_color = self.mw.pm.get_answer_button_color("incorrect", "#e01b24")
+        incorrect_button = QPushButton()
+        incorrect_button.setFixedSize(60, 30)
+        incorrect_button.setStyleSheet(f"background-color: {incorrect_color}; border: 1px solid #ccc;")
+        incorrect_button.clicked.connect(lambda: self._choose_answer_button_color("incorrect", incorrect_button))
+        layout.addRow(tr.preferences_answer_incorrect_border(), incorrect_button)
+
+    def _choose_answer_button_color(self, button_type: str, button: QPushButton) -> None:
+        """Open a color dialog to choose answer button border color."""
+        current_color = self.mw.pm.get_answer_button_color(button_type, "#2ec27e" if button_type == "correct" else "#e01b24")
+        
+        if is_win:
+            new_color = QColorDialog.getColor(
+                QColor(current_color),
+                self,
+                f"Choose {button_type} answer border color",
+                QColorDialog.ColorDialogOption.DontUseNativeDialog,
+            )
+        else:
+            new_color = QColorDialog.getColor(QColor(current_color), self)
+            
+        if new_color.isValid():
+            color_hex = new_color.name()
+            self.mw.pm.set_answer_button_color(button_type, color_hex)
+            button.setStyleSheet(f"background-color: {color_hex}; border: 1px solid #ccc;")
 
     def accept(self) -> None:
         self.accept_with_callback()

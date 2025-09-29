@@ -559,6 +559,12 @@ create table if not exists profiles
     def set_answer_key(self, ease: int, key: str):
         self.meta.setdefault("answer_keys", self.default_answer_keys)[ease] = key
 
+    def get_answer_button_color(self, button_type: str, default: str) -> str:
+        return self.meta.setdefault("answer_button_colors", {}).get(button_type, default)
+
+    def set_answer_button_color(self, button_type: str, color: str):
+        self.meta.setdefault("answer_button_colors", {})[button_type] = color
+
     def hide_top_bar(self) -> bool:
         return self.meta.get("hide_top_bar", False)
 
